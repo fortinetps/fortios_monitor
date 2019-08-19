@@ -1,0 +1,17 @@
+{
+    "ANSIBLE_MODULE_ARGS": {
+        "host": "192.168.210.11",
+        "username": "admin",
+        "password": "fortinet",
+        "vdom": "root",
+        "gather_subset": [
+            "system_current-admins_select",
+            "system_firmware_select",
+            "system_fortimanager_status",
+            "system_ha-checksums_select",
+            "system_interface_select",
+            "system_status_select",
+            "system_time_select"
+        ]
+    }
+  }
