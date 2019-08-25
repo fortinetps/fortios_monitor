@@ -163,7 +163,7 @@ class FortiOSHandler(object):
     def monitor(self, path, name, vdom=None, mkey=None, parameters=None, timeout=None):
         url = self.mon_url(path, name, vdom, mkey=mkey)
 
-        status, result_data = self._conn.send_request(url=url, params=parameters, timeout=timeout if timeout else 120, method='GET')
+        status, result_data = self._conn.send_request(url=url, params=parameters, method='GET')
 
         return self.formatresponse(result_data, vdom=vdom)
 

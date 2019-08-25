@@ -19,6 +19,17 @@ from ansible.module_utils.network.common import utils
 from ansible.module_utils.network.fortios.argspec.firewall.firewall import FirewallArgs
 
 
+FACT_SYSTEM_SUBSETS = frozenset([
+    'system_current-admins_select',
+    'system_firmware_select',
+    'system_fortimanager_status',
+    'system_ha-checksums_select',
+    'system_interface_select',
+    'system_status_select',
+    'system_time_select',
+])
+
+
 class FirewallFacts(object):
     """ The fortios firewall fact class
     """
@@ -27,17 +38,6 @@ class FirewallFacts(object):
         self._module = module
         self._fos = fos
         self._uri = uri
-        self.argument_spec = FirewallArgs.argument_spec
-        spec = deepcopy(self.argument_spec)
-        if subspec:
-            if options:
-                facts_argument_spec = spec[subspec][options]
-            else:
-                facts_argument_spec = spec[subspec]
-        else:
-            facts_argument_spec = spec
-
-        self.generated_spec = utils.generate_dict(facts_argument_spec)
 
     def populate_facts(self, connection, ansible_facts, data=None):
         """ Populate the facts for firewall
@@ -47,16 +47,13 @@ class FirewallFacts(object):
         :rtype: dictionary
         :returns: facts
         """
-        obj = []
-        if not data:
-            data = connection.get("show running-config | include system")
-        resources = data.strip()
-        objs = self.render_config(self.generated_spec, resources)
+        fos = self._fos if self._fos else connection
+        vdom = self._module.params['vdom']
         ansible_facts['ansible_network_resources'].pop('system', None)
         facts = {}
-        if objs:
-            params = utils.validate_config(self.argument_spec, {'config': objs})
-            facts['system'] = utils.remove_empties(params['config'])
+        if self._uri.startswith(tuple(FACT_SYSTEM_SUBSETS)):
+            resp = fos.monitor('system', self._uri[len('system_'):].replace('_', '/'), vdom=vdom)
+            facts.update({self._uri: resp})
         ansible_facts['ansible_network_resources'].update(facts)
         return ansible_facts
 

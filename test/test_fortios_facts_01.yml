@@ -16,10 +16,13 @@
       username: "{{ username }}"
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
-      what: ""
       gather_network_resources:
         - "system_status_select"
         - "system_interface_select"
+    register: fortios_facts_results
+
+  - debug:
+      var: fortios_facts_results
 
   - pause:
 

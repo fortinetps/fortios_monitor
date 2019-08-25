@@ -183,12 +183,12 @@ vlan_list:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.network.fortios.argspec.facts.facts import FactsArgs
-from ansible.module_utils.network.fortios.argspec.system.system import *
-from ansible.module_utils.network.fortios.argspec.firewall.firewall import *
+from ansible.module_utils.network.fortios.argspec.system.system import SystemArgs
+from ansible.module_utils.network.fortios.argspec.firewall.firewall import FirewallArgs
 from ansible.module_utils.network.fortios.facts.facts import Facts
-from ansible.module_utils.connection import Connection
-from ansible.module_utils.network.fortios.fortios import FortiOSHandler
-from ansible.module_utils.network.fortimanager.common import FAIL_SOCKET_MSG
+# from ansible.module_utils.connection import Connection
+# from ansible.module_utils.network.fortios.fortios import FortiOSHandler
+# from ansible.module_utils.network.fortimanager.common import FAIL_SOCKET_MSG
 
 
 def login(data, fos):
