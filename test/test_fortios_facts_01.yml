@@ -1,0 +1,25 @@
+---
+- name: Test FortiOS Facts 01 - with legacy fortiosapi
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    host: "192.168.210.11"
+    username: "admin"
+    password: "fortinet"
+    vdom: "root"
+
+  tasks:
+  - name: Gather FortiOS Facts - with legacy fortiosapi
+    fortios_facts:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      what: ""
+      gather_network_resources:
+        - "system_status_select"
+        - "system_interface_select"
+
+  - pause:
+

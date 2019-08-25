@@ -8,8 +8,10 @@ The arg spec for the fortios monitor module.
 """
 
 CHOICES = [
+    'system_current-admins_select',
     'system_firmware_select',
     'system_fortimanager_status',
+    'system_ha-checksums_select',
     'system_interface_select',
     'system_status_select',
     'system_time_select',

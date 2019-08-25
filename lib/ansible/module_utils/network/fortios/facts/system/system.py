@@ -34,7 +34,7 @@ class SystemFacts(object):
     """ The fortios system fact class
     """
 
-    def __init__(self, module, fos, uri=None, subspec='config', options='options'):
+    def __init__(self, module, fos=None, uri=None, subspec='config', options='options'):
         self._module = module
         self._fos = fos
         self._uri = uri
@@ -47,7 +47,7 @@ class SystemFacts(object):
         :rtype: dictionary
         :returns: facts
         """
-        fos = self._fos
+        fos = self._fos if self._fos else connection
         vdom = self._module.params['vdom']
         ansible_facts['ansible_network_resources'].pop('system', None)
         facts = {}

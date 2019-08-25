@@ -8,13 +8,13 @@
             "name": "Python: Terminal (integrated) - Test fortios_facts Ansible module",
             "type": "python",
             "request": "launch",
-            "program": "/workspaces/fortios_monitor/lib/ansible/modules/network/fortios/fortios_monitor.py",
+            "program": "/workspaces/fortios_monitor/lib/ansible/modules/network/fortios/fortios_facts.py",
             "cwd": "${workspaceRoot}",
             "env": {"PYTHONPATH": "${workspaceRoot}"},
             "justMyCode": false,
             "console": "integratedTerminal",
             "args": [
-                "/workspaces/fortios_monitor/.vscode/fortios_monitor.json"
+                "/workspaces/fortios_monitor/.vscode/fortios_facts.json"
             ]
         }
     ]
