@@ -1,0 +1,22 @@
+---
+- name: Test FortiOS Facts 01 - with fortios httpapi
+  hosts: 192.168.210.11
+  connection: httpapi
+  gather_facts: False
+  vars:
+    vdom: "root"
+
+  tasks:
+  - name: Gather FortiOS Facts - with fortios httpapi
+    fortios_facts:
+      vdom:  "{{ vdom }}"
+      gather_network_resources:
+        - "system_status_select"
+        - "system_interface_select"
+    register: fortios_facts_results
+
+  - debug:
+      var: fortios_facts_results
+
+  - pause:
+

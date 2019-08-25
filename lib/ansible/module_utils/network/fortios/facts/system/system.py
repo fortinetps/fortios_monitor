@@ -47,12 +47,14 @@ class SystemFacts(object):
         :rtype: dictionary
         :returns: facts
         """
-        fos = self._fos if self._fos else connection
+        fos = self._fos #if self._fos else connection
         vdom = self._module.params['vdom']
         ansible_facts['ansible_network_resources'].pop('system', None)
         facts = {}
         if self._uri.startswith(tuple(FACT_SYSTEM_SUBSETS)):
             resp = fos.monitor('system', self._uri[len('system_'):].replace('_', '/'), vdom=vdom)
+            # resp = fos.get('system', 'status/select')
+            # resp = {}
             facts.update({self._uri: resp})
         ansible_facts['ansible_network_resources'].update(facts)
         return ansible_facts

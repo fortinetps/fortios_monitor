@@ -27,9 +27,9 @@ class FactsArgs(object):
         pass
 
     argument_spec = {
-        "host": dict(required=True, type='str'),
-        "username": dict(required=True, type='str'),
-        "password": dict(required=True, type='str', no_log=True),
+        "host": dict(required=False, type='str'),
+        "username": dict(required=False, type='str'),
+        "password": dict(required=False, type='str', no_log=True),
         "vdom": dict(required=False, type='str', default="root"),
         "https": dict(required=False, type='bool', default=True),
         "ssl_verify": dict(required=False, type='bool', default=False),

@@ -1,5 +1,5 @@
 ---
-- name: Test FortiOS Facts 01 - with legacy fortiosapi
+- name: Test FortiOS Facts 01 - with legacy fortiosapi - ansible-playbook ./test/test_fortios_facts_01.yml
   hosts: localhost
   connection: local
   gather_facts: False

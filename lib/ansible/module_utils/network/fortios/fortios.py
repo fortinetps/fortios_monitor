@@ -131,6 +131,7 @@ class FortiOSHandler(object):
         return keyname
 
     def get_mkey(self, path, name, data, vdom=None):
+
         keyname = self.get_mkeyname(path, name, vdom)
         if not keyname:
             return None
@@ -148,6 +149,13 @@ class FortiOSHandler(object):
 
         return self.formatresponse(result_data, vdom=vdom)
 
+    def monitor(self, path, name, vdom=None, mkey=None, parameters=None):
+        url = self.mon_url(path, name, vdom, mkey)
+
+        status, result_data = self._conn.send_request(url=url, params=parameters, method='GET')
+
+        return self.formatresponse(result_data, vdom=vdom)
+
     def set(self, path, name, data, mkey=None, vdom=None, parameters=None):
         if not mkey:
             mkey = self.get_mkey(path, name, data, vdom=vdom)
@@ -159,13 +167,6 @@ class FortiOSHandler(object):
             return self.post(path, name, data, vdom, mkey)
         else:
             return self.formatresponse(result_data, vdom=vdom)
-
-    def monitor(self, path, name, vdom=None, mkey=None, parameters=None, timeout=None):
-        url = self.mon_url(path, name, vdom, mkey=mkey)
-
-        status, result_data = self._conn.send_request(url=url, params=parameters, method='GET')
-
-        return self.formatresponse(result_data, vdom=vdom)
 
     def post(self, path, name, data, vdom=None,
              mkey=None, parameters=None):
@@ -193,6 +194,7 @@ class FortiOSHandler(object):
             resp['vdom'] = "global"
         else:
             resp = json.loads(res.decode('utf-8'))
+            # resp = json.loads(res)
         return resp
 
 # BEGIN DEPRECATED
