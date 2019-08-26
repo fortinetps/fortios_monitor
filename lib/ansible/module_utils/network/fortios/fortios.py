@@ -181,6 +181,14 @@ class FortiOSHandler(object):
 
         return self.formatresponse(result_data, vdom=vdom)
 
+    def execute(self, path, name, data, vdom=None,
+                mkey=None, parameters=None):
+        url = self.mon_url(path, name, vdom, mkey=mkey)
+
+        status, result_data = self._conn.send_request(url=url, params=parameters, data=json.dumps(data), method='POST', timeout=300)
+
+        return self.formatresponse(result_data, vdom=vdom)
+
     def delete(self, path, name, vdom=None, mkey=None, parameters=None, data=None):
         if not mkey:
             mkey = self.get_mkey(path, name, data, vdom=vdom)

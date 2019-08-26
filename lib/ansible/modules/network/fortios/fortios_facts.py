@@ -23,7 +23,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = """
 ---
-module: fortios_monitor
+module: fortios_facts
 extends_documentation_fragment: fortios
 version_added: "2.9"
 short_description: Gets facts about NX-OS switches
@@ -53,16 +53,16 @@ options:
 
 EXAMPLES = """
 - name: Gather resource facts
-  fortios_monitor:
+  fortios_facts:
     gather_network_resources: all
 
 - name: Gather only the interfaces resource facts
-  fortios_monitor:
+  fortios_facts:
     gather_network_resources:
       - interfaces
 
 - name: Gather interfaces resource
-  fortios_monitor:
+  fortios_facts:
     gather_network_resources: interfaces
 """
 

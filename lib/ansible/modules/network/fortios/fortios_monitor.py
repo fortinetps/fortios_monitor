@@ -202,8 +202,8 @@ def login(data, fos):
         fos.https('on')
 
     fos.login(host, username, password, verify=ssl_verify)
-    
-    
+
+
 def main():
     """ Main entry point for AnsibleModule
     """

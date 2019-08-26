@@ -126,7 +126,3 @@ class HttpApi(HttpApiBase):
         except Exception as err:
             raise Exception(err)
 
-    def get_capabilities(self):
-        result = {}
-
-        return json.dumps(result)

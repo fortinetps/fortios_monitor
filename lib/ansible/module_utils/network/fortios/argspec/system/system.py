@@ -11,43 +11,18 @@ __metaclass__ = type
 
 
 class SystemArgs(object):
-    """The arg spec for the fortios_monitor module
+    """The arg spec for the fortios_facts module
     """
 
     def __init__(self, **kwargs):
         pass
-
-    system_config_backup_spec = {
-        "system_config_backup": {
-            "required": False, "type": "dict",
-            "options": {
-                "destination": {"required": False, "type": "str",
-                                "choices": ["file", "usb"]},
-                "filename": {"required": False, "type": "str"},
-                "password": {"required": False, "type": "str"},
-                "scope": {"required": True, "type": "str",
-                          "choices": ["global", "vdom"]},
-                "usb_filename": {"required": False, "type": "str"},
-                "vdom": {"required": False, "type": "str"}
-            }
-        }
-    }
-
-    system_current_admins_select_spec = {
-        "system_current_admins_select": {
-            "required": False, "type": "dict",
-            "options": {
-                
-            }
-        }
-    }
 
     system_firmware_upgrade_spec = {
         "system_firmware_upgrade": {
             "required": False, "type": "dict",
             "options": {
                 "file_content": {"required": False, "type": "str"},
-                "filename": {"required": False, "type": "str"},
+                "filename": {"required": True, "type": "str"},
                 "format_partition": {"required": False, "type": "bool"},
                 "source": {"required": True, "type": "str",
                             "choices": ["upload", "usb", "fortiguard"]}

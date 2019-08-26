@@ -13,8 +13,8 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 import re
-from copy import deepcopy
-
+import os
+import base64
 from ansible.module_utils.network.common import utils
 from ansible.module_utils.network.fortios.argspec.system.system import SystemArgs
 
@@ -22,6 +22,7 @@ from ansible.module_utils.network.fortios.argspec.system.system import SystemArg
 FACT_SYSTEM_SUBSETS = frozenset([
     'system_current-admins_select',
     'system_firmware_select',
+    'system_firmware_upgrade',
     'system_fortimanager_status',
     'system_ha-checksums_select',
     'system_interface_select',
@@ -47,14 +48,52 @@ class SystemFacts(object):
         :rtype: dictionary
         :returns: facts
         """
-        fos = self._fos #if self._fos else connection
-        vdom = self._module.params['vdom']
         ansible_facts['ansible_network_resources'].pop('system', None)
         facts = {}
         if self._uri.startswith(tuple(FACT_SYSTEM_SUBSETS)):
-            resp = fos.monitor('system', self._uri[len('system_'):].replace('_', '/'), vdom=vdom)
-            # resp = fos.get('system', 'status/select')
-            # resp = {}
+            gather_method = getattr(self, self._uri.replace('-', '_'), self.system_fact)
+            resp = gather_method()
             facts.update({self._uri: resp})
+
         ansible_facts['ansible_network_resources'].update(facts)
         return ansible_facts
+
+    def system_fact(self):
+        fos = self._fos
+        vdom = self._module.params['vdom']
+        return fos.monitor('system', self._uri[len('system_'):].replace('_', '/'), vdom=vdom)
+
+    def system_firmware_upgrade(self):
+        fos = self._fos
+        vdom = self._module.params['vdom']
+        system_firmware_upgrade_param = self._module.params.get('system_firmware_upgrade')
+        if system_firmware_upgrade_param:
+            filtered_data = {}
+            filtered_data['source'] = system_firmware_upgrade_param['source']
+            if hasattr(system_firmware_upgrade_param, 'format_partition'):
+                filtered_data['format_partition'] = system_firmware_upgrade_param['format_partition']
+            if filtered_data['source'] == 'upload':
+                try:
+                    filtered_data['file_content'] = base64.b64encode(open(system_firmware_upgrade_param['filename'], 'rb').read()).decode('utf-8')
+                except Exception:
+                    filtered_data['file_content'] = ''
+            else:
+                filtered_data['filename'] = system_firmware_upgrade_param['filename']
+
+            return fos.execute('system',
+                            'firmware/upgrade',
+                            data=filtered_data,
+                            vdom=vdom)
+
+    def system_interface_select(self):
+        fos = self._fos
+        vdom = self._module.params['vdom']
+
+        query_string = '?vdom=' + vdom
+        system_interface_select_param = self._module.params.get('system_interface_select')
+        if system_interface_select_param:
+            for key, val in system_interface_select_param.items():
+                if val:
+                    query_string += '&' + str(key) + '=' + str(val)
+
+        return fos.monitor('system', self._uri[len('system_'):].replace('_', '/')+query_string, vdom=None)

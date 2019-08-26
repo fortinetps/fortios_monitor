@@ -1,0 +1,77 @@
+---
+- name: Test FortiOS Facts 01 - with legacy fortiosapi - ansible-playbook ./test/test_fortios_facts_01.yml
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    host: "192.168.210.11"
+    username: "admin"
+    password: "fortinet"
+    vdom: "root"
+
+  tasks:
+  - name: Gather FortiOS Facts - with legacy fortiosapi
+    fortios_facts:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      gather_network_resources:
+        - 'system_current-admins_select'
+        - 'system_firmware_select'
+        - 'system_firmware_upgrade'
+        - 'system_fortimanager_status'
+        - 'system_ha-checksums_select'
+        - 'system_interface_select'
+        - 'system_status_select'
+        - 'system_time_select'
+      system_interface_select:
+        # interface_name: "port3"
+        include_vlan: true
+    register: fortios_facts_results
+
+  - debug:
+      var: fortios_facts_results
+
+  - pause:
+
+- name: Test FortiOS Facts 01 - with fortios httpapi
+  hosts: 192.168.210.11
+  connection: httpapi
+  gather_facts: False
+  vars:
+    vdom: "root"
+
+  tasks:
+  - name: Gather FortiOS Facts - with fortios httpapi
+    fortios_facts:
+      vdom:  "{{ vdom }}"
+      gather_network_resources:
+        - 'system_current-admins_select'
+        - 'system_firmware_select'
+        - 'system_firmware_upgrade'
+        - 'system_fortimanager_status'
+        - 'system_ha-checksums_select'
+        - 'system_interface_select'
+        - 'system_status_select'
+        - 'system_time_select'
+      system_interface_select:
+        # interface_name: "port3"
+        include_vlan: true
+    register: fortios_facts_results
+
+  - debug:
+      var: fortios_facts_results
+
+  - name: Firmware upgrade - with fortios httpapi
+    fortios_facts:
+      vdom:  "{{ vdom }}"
+      gather_network_resources:
+        - "system_firmware_upgrade"
+      system_firmware_upgrade:
+        filename: "/workspaces/fortios_monitor/firmware/FGT_VM64_KVM-v6-build0163-FORTINET.out"
+        source: "upload"
+    register: fortios_facts_results
+
+  - debug:
+      var: fortios_facts_results
