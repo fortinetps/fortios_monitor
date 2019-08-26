@@ -208,11 +208,8 @@ def main():
     """ Main entry point for AnsibleModule
     """
     argument_spec = FactsArgs.argument_spec
-    argument_spec.update(SystemArgs.system_config_backup_spec)
-    argument_spec.update(SystemArgs.system_current_admins_select_spec)
     argument_spec.update(SystemArgs.system_firmware_upgrade_spec)
     argument_spec.update(SystemArgs.system_interface_select_spec)
-    argument_spec.update(FirewallArgs.firewall_policy_select_spec)
 
     module = AnsibleModule(argument_spec=argument_spec,
                            supports_check_mode=False)

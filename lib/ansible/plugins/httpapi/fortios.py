@@ -43,7 +43,6 @@ version_added: "2.9"
 
 from ansible.plugins.httpapi import HttpApiBase
 from ansible.module_utils.basic import to_text
-from ansible.module_utils.connection import Connection, ConnectionError
 import urllib
 import json
 import re
@@ -52,7 +51,6 @@ import re
 class HttpApi(HttpApiBase):
     def __init__(self, connection):
         super(HttpApi, self).__init__(connection)
-        self.connection = connection
 
         self._ccsrftoken = ''
 
