@@ -1,4 +1,3 @@
-#!/usr/bin/python
 from __future__ import (absolute_import, division, print_function)
 # Copyright 2019 Fortinet, Inc.
 #

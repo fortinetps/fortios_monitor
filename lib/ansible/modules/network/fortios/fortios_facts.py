@@ -87,13 +87,14 @@ options:
               system_interface_select, system_status_select and system_time_select
         type: list
         required: true
+        default: 'system_status_select'
     system_interface_select:
         description:
             - When supplied, this argument will filter the system interface facts
-              gathering, you can specify 
+              gathering, you can specify
         type: dict
         required: false
-        options:
+        suboptions:
             interface_name:
                 description:
                     - interface name

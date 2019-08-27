@@ -73,4 +73,4 @@ class SystemFacts(object):
                 if val:
                     query_string += '&' + str(key) + '=' + str(val)
 
-        return fos.monitor('system', self._uri[len('system_'):].replace('_', '/')+query_string, vdom=None)
+        return fos.monitor('system', self._uri[len('system_'):].replace('_', '/') + query_string, vdom=None)

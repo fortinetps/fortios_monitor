@@ -1,4 +1,3 @@
-#!/usr/bin/python
 from __future__ import (absolute_import, division, print_function)
 # Copyright 2019 Fortinet, Inc.
 #
@@ -46,5 +45,5 @@ class FactsArgs(object):
         "vdom": dict(required=False, type='str', default="root"),
         "https": dict(required=False, type='bool', default=True),
         "ssl_verify": dict(required=False, type='bool', default=False),
-        'gather_subset': dict(requires=True, type='list', choices=CHOICES),
+        'gather_subset': dict(requires=True, type='list', choices=CHOICES, default=['system_status_select']),
     }
