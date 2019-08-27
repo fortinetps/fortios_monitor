@@ -14,15 +14,16 @@ class SystemArgs(object):
     """The arg spec for the fortios_facts module
     """
 
+    FACT_SYSTEM_SUBSETS = frozenset([
+        'system_current-admins_select',
+        'system_firmware_select',
+        'system_fortimanager_status',
+        'system_ha-checksums_select',
+        'system_interface_select',
+        'system_status_select',
+        'system_time_select',
+    ])
+
+
     def __init__(self, **kwargs):
         pass
-
-    system_interface_select_spec = {
-        "system_interface_select": {
-            "required": False, "type": "dict",
-             "options": {
-                 "interface_name": {"required": False, "type": "str"},
-                 "include_vlan": {"required": False, "type": "bool"}
-            }
-        }
-    }

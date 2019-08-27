@@ -5,17 +5,9 @@
         "password": "fortinet",
         "vdom": "root",
         "gather_subset": [
-            "system_current-admins_select",
-            "system_firmware_select",
-            "system_fortimanager_status",
-            "system_ha-checksums_select",
-            {"system_interface_select": 
-            {
-                "include_vlan": true
-            }
-            },
-            "system_status_select",
-            "system_time_select"
+            {"fact": "system_firmware_select"},
+            {"fact": "system_interface_select", "filters": [{"include_vlans": true}, {"interface_name": "port3"}]},
+            {"fact": "system_current-admins_select"}
         ]
     }
   }

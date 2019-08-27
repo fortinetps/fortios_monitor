@@ -17,16 +17,15 @@
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
       gather_subset:
-        - 'system_current-admins_select'
-        - 'system_firmware_select'
-        - 'system_fortimanager_status'
-        - 'system_ha-checksums_select'
-        - 'system_interface_select'
-        - 'system_status_select'
-        - 'system_time_select'
-      system_interface_select:
-        # interface_name: "port3"
-        include_vlan: true
+        - fact: 'system_current-admins_select'
+        - fact: 'system_firmware_select'
+        - fact: 'system_fortimanager_status'
+        - fact: 'system_ha-checksums_select'
+        - fact: 'system_interface_select'
+          filters:
+            - include_vlan: true
+        - fact: 'system_status_select'
+        - fact: 'system_time_select'
     register: fortios_facts_results
 
   - debug:
@@ -42,20 +41,48 @@
     vdom: "root"
 
   tasks:
+  - name: gather basic system status facts
+    fortios_facts:
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_status_select'
+
+  - name: gather all pysical interfaces status facts
+    fortios_facts:
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_interface_select'
+
+  - name: gather gather all pysical and vlan interfaces status facts
+    fortios_facts:
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_interface_select'
+          filters:
+            - include_vlan: true
+
+  - name: gather basic system info and physical interface port3 status facts
+    fortios_facts:
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_status_select'
+        - fact: 'system_interface_select'
+          filters:
+            - interface_name: 'port3'
+
   - name: Gather FortiOS Facts - with fortios httpapi
     fortios_facts:
       vdom:  "{{ vdom }}"
       gather_subset:
-        - 'system_current-admins_select'
-        - 'system_firmware_select'
-        - 'system_fortimanager_status'
-        - 'system_ha-checksums_select'
-        - 'system_interface_select'
-        - 'system_status_select'
-        - 'system_time_select'
-      system_interface_select:
-        # interface_name: "port3"
-        include_vlan: true
+        - fact: 'system_current-admins_select'
+        - fact: 'system_firmware_select'
+        - fact: 'system_fortimanager_status'
+        - fact: 'system_ha-checksums_select'
+        - fact: 'system_interface_select'
+          filters:
+            - include_vlan: true
+        - fact: 'system_status_select'
+        - fact: 'system_time_select'
     register: fortios_facts_results
 
   - debug:
