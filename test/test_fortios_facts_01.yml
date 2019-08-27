@@ -16,7 +16,7 @@
       username: "{{ username }}"
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
-      gather_network_resources:
+      gather_subset:
         - "system_status_select"
         - "system_interface_select"
     register: fortios_facts_results

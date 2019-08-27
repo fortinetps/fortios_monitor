@@ -182,10 +182,10 @@ class FortiOSHandler(object):
         return self.formatresponse(result_data, vdom=vdom)
 
     def execute(self, path, name, data, vdom=None,
-                mkey=None, parameters=None):
+                mkey=None, parameters=None, timeout=300):
         url = self.mon_url(path, name, vdom, mkey=mkey)
 
-        status, result_data = self._conn.send_request(url=url, params=parameters, data=json.dumps(data), method='POST', timeout=300)
+        status, result_data = self._conn.send_request(url=url, params=parameters, data=json.dumps(data), method='POST', timeout=timeout)
 
         return self.formatresponse(result_data, vdom=vdom)
 

@@ -4,7 +4,7 @@
         "username": "admin",
         "password": "fortinet",
         "vdom": "root",
-        "gather_network_resources": [
+        "gather_subset": [
             "system_current-admins_select",
             "system_firmware_select",
             "system_fortimanager_status",

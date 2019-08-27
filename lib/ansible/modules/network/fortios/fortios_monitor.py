@@ -40,7 +40,7 @@ author:
 notes:
   - Tested against fortios 6.0.2 on FortiGate-VM
 options:
-  gather_network_resources:
+  gather_subset:
     description:
       - When supplied, this argument will restrict the facts collected
         to a given subset. Possible values for this argument include
@@ -54,20 +54,20 @@ options:
 EXAMPLES = """
 - name: Gather resource facts
   fortios_monitor:
-    gather_network_resources: all
+    gather_subset: all
 
 - name: Gather only the interfaces resource facts
   fortios_monitor:
-    gather_network_resources:
+    gather_subset:
       - interfaces
 
 - name: Gather interfaces resource
   fortios_monitor:
-    gather_network_resources: interfaces
+    gather_subset: interfaces
 """
 
 RETURN = """
-ansible_net_gather_network_resources:
+ansible_net_gather_subset:
   description: The list of fact for network resource subsets collected from the device
   returned: when the resource is configured
   type: list

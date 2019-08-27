@@ -29,14 +29,14 @@ short_description: Get facts about fortios devices.
 description:
   - Collects facts from network devices running the fortios operating
     system. This module places the facts gathered in the fact tree keyed by the
-    respective resource name.  This facts module will only collect those  
+    respective resource name.  This facts module will only collect those
     facts which user specified in playbook.
 author:
     - Don Yao (@fortinetps)
     - Miguel Angel Munoz (@mamunozgonzalez)
     - Nicolas Thomas (@thomnico)
 notes:
-    - Support both legacy mode (local_action) and httpapi 
+    - Support both legacy mode (local_action) and httpapi
     - Legacy mode run as a local_action in your playbook, requires fortiosapi library developed by Fortinet
     - httpapi mode is the new recommend way for network modules
 requirements:
@@ -46,18 +46,18 @@ options:
         description:
             - FortiOS or FortiGate IP address.
         type: str
-        required: true
+        required: false
     username:
         description:
             - FortiOS or FortiGate username.
         type: str
-        required: true
+        required: false
     password:
         description:
             - FortiOS or FortiGate password.
         type: str
         default: ""
-        required: true
+        required: false
     vdom:
         description:
             - Virtual domain, among those defined previously. A vdom is a
@@ -78,21 +78,32 @@ options:
         type: bool
         default: false
         required: false
-    gather_network_resources:
+    gather_subset:
         description:
             - When supplied, this argument will restrict the facts collected
-            to a given subset.  Possible values for this argument include:
-              - 'system_current-admins_select',
-              - 'system_firmware_select',
-              - 'system_firmware_upgrade',
-              - 'system_fortimanager_status',
-              - 'system_ha-checksums_select',
-              - 'system_interface_select',
-              - 'system_status_select',
-              - 'system_time_select'
-      type: list
-      required: true
-
+              to a given subset.  Possible values for this argument include
+              system_current-admins_select, system_firmware_select,
+              system_fortimanager_status, system_ha-checksums_select,
+              system_interface_select, system_status_select and system_time_select
+        type: list
+        required: true
+    system_interface_select:
+        description:
+            - When supplied, this argument will filter the system interface facts
+              gathering, you can specify 
+        type: dict
+        required: false
+        options:
+            interface_name:
+                description:
+                    - interface name
+                type: str
+                required: false
+            include_vlan:
+                description:
+                    - include vlan
+                type: bool
+                required: false
 '''
 
 EXAMPLES = '''
@@ -111,23 +122,12 @@ EXAMPLES = '''
       username: "{{ username }}"
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
-      gather_network_resources:
+      gather_subset:
         - 'system_interface_select'
         - 'system_status_select'
       system_interface_select:
         include_vlan: true
-  - name: upgrade system firmware
-    fortios_facts:
-      host:  "{{ host }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
-      vdom:  "{{ vdom }}"
-      gather_network_resources:
-        - "system_firmware_upgrade"
-      system_firmware_upgrade:
-        filename: "/workspaces/fortios_monitor/firmware/FGT_VM64_KVM-v6-build0163-FORTINET.out"
-        source: "upload"
-  '''
+'''
 
 RETURN = '''
 build:
@@ -178,10 +178,6 @@ version:
 ansible_facts:
   description: The list of fact subsets collected from the device
   returned: always
-  type: list
-fortios_system_status:
-  description: The fortios basic system status information running on the remote device
-  returned: always
   type: dict
 
 '''
@@ -214,7 +210,6 @@ def main():
     """ Main entry point for AnsibleModule
     """
     argument_spec = FactsArgs.argument_spec
-    argument_spec.update(SystemArgs.system_firmware_upgrade_spec)
     argument_spec.update(SystemArgs.system_interface_select_spec)
 
     module = AnsibleModule(argument_spec=argument_spec,
@@ -229,7 +224,7 @@ def main():
         if module._socket_path:
             warnings = []
             connection = Connection(module._socket_path)
-            module._connection = connection # to satisfy FactsBase
+            module._connection = connection
             fos = FortiOSHandler(connection)
 
             result = Facts(module, fos).get_facts()
