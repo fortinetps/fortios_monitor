@@ -27,10 +27,10 @@ module: fortios_facts
 version_added: "2.9"
 short_description: Get facts about fortios devices.
 description:
-  - Collects facts from network devices running the fortios operating
-    system. This module places the facts gathered in the fact tree keyed by the
-    respective resource name.  This facts module will only collect those
-    facts which user specified in playbook.
+    - Collects facts from network devices running the fortios operating
+      system. This module places the facts gathered in the fact tree keyed by the
+      respective resource name.  This facts module will only collect those
+      facts which user specified in playbook.
 author:
     - Don Yao (@fortinetps)
     - Miguel Angel Munoz (@mamunozgonzalez)

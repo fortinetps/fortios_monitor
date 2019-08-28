@@ -24,6 +24,7 @@
         - fact: 'system_interface_select'
           filters:
             - include_vlan: true
+            - interface_name: v100_p3
         - fact: 'system_status_select'
         - fact: 'system_time_select'
     register: fortios_facts_results
@@ -81,6 +82,7 @@
         - fact: 'system_interface_select'
           filters:
             - include_vlan: true
+            - interface_name: port3
         - fact: 'system_status_select'
         - fact: 'system_time_select'
     register: fortios_facts_results
